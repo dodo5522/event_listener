@@ -1,7 +1,7 @@
 ' class diagram
 @startuml
 
-package event #DDDDDD {
+package event_listener #DDDDDD {
     package base #FFFFFF {
         class IEventListener {
             #q_
@@ -65,16 +65,5 @@ package event #DDDDDD {
         IEventHandler <|-- XivelyEventHandler
         IEventHandler <|-- TweetBotEventHandler
     }
-}
-
-package timer #DDDDDD {
-    class RecursiveTimer {
-    }
-}
-
-package logger #DDDDDD {
-}
-
-package argparse #DDDDDD {
 }
 @enduml

@@ -4,7 +4,7 @@ PATH_ROOT := ..
 PATH_DOC := $(PATH_ROOT)/doc
 README := $(PATH_ROOT)/README.md
 
-SOURCES := $(addprefix $(PATH_DOC)/,sequence.uml class.uml database.uml)
+SOURCES := $(addprefix $(PATH_DOC)/,sequence.uml class.uml)
 DESTS := $(SOURCES:%.uml=%.png)
 
 all:readme uml
