@@ -19,8 +19,8 @@ import subprocess
 import xively
 import tweepy
 from keen.client import KeenClient
-from solar_monitor import logger
-from solar_monitor.event.base import IEventHandler
+from event_listener import logger
+from event_listener import IEventHandler
 
 
 class SystemHaltEventHandler(IEventHandler):
@@ -188,3 +188,7 @@ class TweetBotEventHandler(IEventHandler):
             VALUE=round(number=data["data"][self.label_]["value"], ndigits=2))
 
         self.api_.update_status(msg)
+
+if __name__ == "__main__":
+    import doctest
+    doctest.testmod()

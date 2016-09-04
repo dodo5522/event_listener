@@ -17,8 +17,8 @@
 
 """ Battery driver class to access service. """
 
-from solar_monitor import logger
-from solar_monitor.event.base import IEventTrigger
+from event_listener import logger
+from event_listener.event.base import IEventTrigger
 
 
 class DataIsUpdatedTrigger(IEventTrigger):
@@ -40,7 +40,7 @@ class DataIsUpdatedTrigger(IEventTrigger):
 class BatteryLowTrigger(IEventTrigger):
     """ Event trigger to pass the data if battery volage is low. The instance
         object of this class has pre_voltage_ statical value, so you should
-        keep this instance during monitoring solar system.
+        keep this instance during monitoring some system.
 
     Args:
         lowest_voltage: Low limit of battery voltage.
@@ -89,7 +89,7 @@ class BatteryLowTrigger(IEventTrigger):
 class BatteryFullTrigger(IEventTrigger):
     """ Event trigger to pass the data if battery volage is charged fully. The
         instance object of this class has pre_voltage_ statical value, so you
-        should keep this instance during monitoring solar system.
+        should keep this instance during monitoring some system.
 
     Args:
         full_voltage: Highet voltage if battery is charged full.
@@ -138,7 +138,7 @@ class BatteryFullTrigger(IEventTrigger):
 class ChargeCurrentHighTrigger(IEventTrigger):
     """ Event trigger to pass the data if charge current got to be high. The
         instance object of this class has pre_current_ statical value, so you
-        should keep this instance during monitoring solar system.
+        should keep this instance during monitoring some system.
 
     Args:
         high_current: Charge current to be input to battery.
@@ -182,3 +182,7 @@ class ChargeCurrentHighTrigger(IEventTrigger):
             ret, type(self).__name__, data["at"]))
 
         return ret
+
+if __name__ == "__main__":
+    import doctest
+    doctest.testmod()

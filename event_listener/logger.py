@@ -17,11 +17,11 @@
 
 import logging
 
-_LOGGER = logging.getLogger("solar_monitor")
+_LOGGER = logging.getLogger("event_listener")
 
 
 def configure(
-        path_file="/var/log/solar_monitor.log",
+        path_file="/var/log/event_listener.log",
         log_format="%(asctime)s %(name)s %(levelname)s: %(message)s",
         date_format="%Y/%m/%d %p %l:%M:%S",
         is_debug=False):
@@ -98,3 +98,7 @@ def critical(message):
         message: String of message to print.
     """
     _LOGGER.debug(message)
+
+if __name__ == "__main__":
+    import doctest
+    doctest.testmod()

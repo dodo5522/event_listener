@@ -24,9 +24,8 @@ IEventListener
    |- IEventTrigger
    |    |- DataIsUpdatedTrigger     : Catch the timing of any data updated.
    |    |- BatteryLowTrigger        : Catch the timing of low battery voltage.
-   |    |- BatteryFullTrigger       : Catch the timing of battery charge completion.
    |    |- ...
-   |    `- PanelTempHighTrigger     : Catch the timing of solar panel's temparature getting too high.
+   |    `- BatteryFullTrigger       : Catch the timing of battery charge completion.
    |
    `- IEventHandler
         |- SystemHaltEventHandler   : Shutdown some devices consumpting power to save it.
@@ -43,7 +42,7 @@ have TweetEventHandler and SystemHaltEventHandler objects.
 
 from queue import Queue
 from threading import Thread
-from solar_monitor import logger
+from event_listener import logger
 
 
 class IEventListener(object):
@@ -69,7 +68,7 @@ class IEventListener(object):
 
     def _thread_main(self):
         """ Event trigger loop thread function. The role is to receive queue
-            having raw data sent by main loop to monitor solar system, and pass
+            having raw data sent by main loop to monitor some system, and pass
             it to event handlers already registered. This thread is joined if
             the received queue is None.
 
@@ -269,3 +268,8 @@ class IEventHandler(IEventListener):
             data: Pass to the registered event handlers.
         """
         raise NotImplementedError
+
+
+if __name__ == "__main__":
+    import doctest
+    doctest.testmod()
