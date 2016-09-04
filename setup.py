@@ -36,7 +36,7 @@ setup(
     classifiers=[
         'Development Status :: 4 - Beta',
         'Environment :: Console',
-        'License :: OSI Approved :: GNU General Public License v2 (GPLv2)',
+        'License :: OSI Approved :: Apache Software License',
         'Natural Language :: Japanese',
         'Programming Language :: Python',
         'Programming Language :: Python :: 2',
