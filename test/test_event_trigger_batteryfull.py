@@ -6,7 +6,11 @@ import datetime
 import unittest
 from event_listener.trigger import BatteryFullTrigger
 from event_listener.handler import IEventHandler
-from unittest.mock import MagicMock
+
+try:
+    from unittest.mock import MagicMock
+except ImportError:
+    from mock import MagicMock
 
 
 class TestBatteryFullTrigger(unittest.TestCase):

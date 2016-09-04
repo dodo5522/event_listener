@@ -4,9 +4,21 @@
 import unittest
 from datetime import datetime
 from event_listener.handler import XivelyEventHandler
-from unittest.mock import call
-from unittest.mock import patch
-from unittest.mock import MagicMock
+
+try:
+    from unittest.mock import call
+except ImportError:
+    from mock import call
+
+try:
+    from unittest.mock import patch
+except ImportError:
+    from mock import patch
+
+try:
+    from unittest.mock import MagicMock
+except ImportError:
+    from mock import MagicMock
 
 
 class TestXivelyEventHandler(unittest.TestCase):

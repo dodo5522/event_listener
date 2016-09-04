@@ -40,7 +40,11 @@ devices when battery voltage getting low, you make a BatteryLowTrigger object to
 have TweetEventHandler and SystemHaltEventHandler objects.
 """
 
-from queue import Queue
+try:
+    from queue import Queue
+except ImportError:
+    from Queue import Queue
+
 from threading import Thread
 from event_listener import logger
 

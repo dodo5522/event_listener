@@ -5,7 +5,11 @@ import sys
 import unittest
 import datetime
 from event_listener.trigger import BatteryLowTrigger
-from unittest.mock import MagicMock
+
+try:
+    from unittest.mock import MagicMock
+except ImportError:
+    from mock import MagicMock
 
 
 class TestBatteryLowTrigger(unittest.TestCase):
