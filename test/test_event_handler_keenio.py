@@ -3,7 +3,7 @@
 
 import unittest
 from datetime import datetime
-from solar_monitor.event.handler import KeenIoEventHandler
+from event_listener.handler import KeenIoEventHandler
 from unittest.mock import patch
 from unittest.mock import MagicMock
 
@@ -25,7 +25,7 @@ class TestKeenioEventHandler(unittest.TestCase):
     def tearDown(self):
         pass
 
-    @patch("solar_monitor.event.handler.KeenClient", autospec=True)
+    @patch("event_listener.handler.KeenClient", autospec=True)
     def test_post_data_to_keenio(self, mocked_client):
         client = MagicMock()
         client.add_events = MagicMock(return_value=None)

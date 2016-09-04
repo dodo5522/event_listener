@@ -2,8 +2,8 @@
 # -*- coding:utf-8 -*-
 
 import unittest
-from solar_monitor.event.base import IEventTrigger
-from solar_monitor.event.base import IEventListener
+from event_listener.base import IEventTrigger
+from event_listener.base import IEventListener
 from unittest.mock import MagicMock
 
 

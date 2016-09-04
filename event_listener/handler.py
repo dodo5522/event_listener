@@ -20,7 +20,7 @@ import xively
 import tweepy
 from keen.client import KeenClient
 from event_listener import logger
-from event_listener import IEventHandler
+from event_listener.base import IEventHandler
 
 
 class SystemHaltEventHandler(IEventHandler):

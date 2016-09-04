@@ -3,7 +3,7 @@
 
 import unittest
 from datetime import datetime
-from solar_monitor.event.handler import XivelyEventHandler
+from event_listener.handler import XivelyEventHandler
 from unittest.mock import call
 from unittest.mock import patch
 from unittest.mock import MagicMock
@@ -26,8 +26,8 @@ class TestXivelyEventHandler(unittest.TestCase):
     def tearDown(self):
         pass
 
-    @patch("solar_monitor.event.handler.xively.Datastream", autospec=True)
-    @patch("solar_monitor.event.handler.xively.XivelyAPIClient", autospec=True)
+    @patch("event_listener.handler.xively.Datastream", autospec=True)
+    @patch("event_listener.handler.xively.XivelyAPIClient", autospec=True)
     def test_post_data_to_xively(self, mocked_api_client, mocked_datastream):
         client = MagicMock()
         client.update = MagicMock(return_value=None)

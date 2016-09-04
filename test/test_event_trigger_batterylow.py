@@ -4,7 +4,7 @@
 import sys
 import unittest
 import datetime
-from solar_monitor.event.trigger import BatteryLowTrigger
+from event_listener.trigger import BatteryLowTrigger
 from unittest.mock import MagicMock
 
 

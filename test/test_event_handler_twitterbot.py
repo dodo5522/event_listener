@@ -3,7 +3,7 @@
 
 import unittest
 from datetime import datetime
-from solar_monitor.event.handler import TweetBotEventHandler
+from event_listener.handler import TweetBotEventHandler
 from unittest.mock import patch
 from unittest.mock import MagicMock
 
@@ -42,8 +42,8 @@ class TestTweetBotEventHandler(unittest.TestCase):
     def tearDown(self):
         pass
 
-    @patch("solar_monitor.event.handler.tweepy.OAuthHandler", autospec=True)
-    @patch("solar_monitor.event.handler.tweepy.API", autospec=True)
+    @patch("event_listener.handler.tweepy.OAuthHandler", autospec=True)
+    @patch("event_listener.handler.tweepy.API", autospec=True)
     def test_run_command_default(self, mock_api, mock_oauth_handler):
         # Prepare test environment
         mock_api_obj = MagicMock()
@@ -79,8 +79,8 @@ class TestTweetBotEventHandler(unittest.TestCase):
 
         mock_api_obj.update_status.assert_called_once_with("バッテリ電圧は1.0Vです。\n2016年1月3日4時55分に取得したデータになります。")
 
-    @patch("solar_monitor.event.handler.tweepy.OAuthHandler", autospec=True)
-    @patch("solar_monitor.event.handler.tweepy.API", autospec=True)
+    @patch("event_listener.handler.tweepy.OAuthHandler", autospec=True)
+    @patch("event_listener.handler.tweepy.API", autospec=True)
     def test_run_command_array_voltage(self, mock_api, mock_oauth_handler):
         # Prepare test environment
         mock_api_obj = MagicMock()
@@ -118,8 +118,8 @@ class TestTweetBotEventHandler(unittest.TestCase):
 
         mock_api_obj.update_status.assert_called_once_with("太陽光パネルの電圧は2.0Vです。\n2016年1月3日に取得したデータになります。")
 
-    @patch("solar_monitor.event.handler.tweepy.OAuthHandler", autospec=True)
-    @patch("solar_monitor.event.handler.tweepy.API", autospec=True)
+    @patch("event_listener.handler.tweepy.OAuthHandler", autospec=True)
+    @patch("event_listener.handler.tweepy.API", autospec=True)
     def test_run_command_array_temparature(self, mock_api, mock_oauth_handler):
         # Prepare test environment
         mock_api_obj = MagicMock()

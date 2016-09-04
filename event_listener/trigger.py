@@ -18,7 +18,7 @@
 """ Battery driver class to access service. """
 
 from event_listener import logger
-from event_listener.event.base import IEventTrigger
+from event_listener.base import IEventTrigger
 
 
 class DataIsUpdatedTrigger(IEventTrigger):

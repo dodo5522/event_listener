@@ -2,7 +2,7 @@
 # -*- coding:utf-8 -*-
 
 import unittest
-from solar_monitor.event.base import IEventListener
+from event_listener.base import IEventListener
 from threading import Event
 
 

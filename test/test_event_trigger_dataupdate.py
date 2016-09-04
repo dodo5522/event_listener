@@ -2,7 +2,7 @@
 # -*- coding:utf-8 -*-
 
 import unittest
-from solar_monitor.event.trigger import DataIsUpdatedTrigger
+from event_listener.trigger import DataIsUpdatedTrigger
 
 
 class TestDataIsUpdatedTrigger(unittest.TestCase):
