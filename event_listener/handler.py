@@ -23,10 +23,10 @@ from event_listener import logger
 from event_listener.base import IEventHandler
 
 
-class SystemHaltEventHandler(IEventHandler):
-    """ The instance should be registered to event trigger of low battery. Run
-        command specified to "cmd" like "./set_event.sh shutdown" when the event
-        triggered.
+class RunningCommandEventHandler(IEventHandler):
+    """ The instance should be registered to event trigger of low battery for
+        example. This instance runs command specified to "cmd" like
+        "./set_event.sh shutdown" when the event triggered.
 
     Args:
         cmd: command to be run when the event is triggered.

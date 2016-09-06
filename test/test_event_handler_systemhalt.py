@@ -4,7 +4,7 @@
 import subprocess
 import sys
 import unittest
-from event_listener.handler import SystemHaltEventHandler
+from event_listener.handler import RunningCommandEventHandler
 
 try:
     from unittest.mock import patch
@@ -42,7 +42,7 @@ class TestSystemHaltEventHandler(unittest.TestCase):
         proc.communicate = MagicMock(return_value=[b"", b""])
         mocked_popen.return_value = proc
 
-        handler = SystemHaltEventHandler(cmd_dummy)
+        handler = RunningCommandEventHandler(cmd_dummy)
         handler.start()
         handler.put_q([])
         handler.join_q()
@@ -59,7 +59,7 @@ class TestSystemHaltEventHandler(unittest.TestCase):
         proc.communicate = MagicMock(return_value=[b"", b""])
         mocked_popen.return_value = proc
 
-        handler = SystemHaltEventHandler(cmd_dummy)
+        handler = RunningCommandEventHandler(cmd_dummy)
         handler.start()
         handler.put_q([])
         handler.join_q()
