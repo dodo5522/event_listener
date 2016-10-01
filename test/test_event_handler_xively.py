@@ -115,7 +115,7 @@ class TestXivelyEventHandler(unittest.TestCase):
         self.assertEqual(mocked_api_client.call_count, 3)
 
         if sys.version_info[:3] >= (3, 5, 0):
-            api.feeds.get.assert_not_called("dummy_feed_key")
+            api.feeds.get.assert_not_called()
             client.update.assert_not_called()
         else:
             self.assertEqual(api.feeds.get.call_count, 0)
