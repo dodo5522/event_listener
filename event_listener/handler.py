@@ -17,6 +17,7 @@
 
 import subprocess
 import xively
+import time
 import tweepy
 from keen.client import KeenClient
 from event_listener import logger
@@ -115,8 +116,8 @@ class XivelyEventHandler(IEventHandler):
     def __init__(self, api_key, feed_key, q_max=5):
         IEventHandler.__init__(self, q_max=q_max)
 
-        api = xively.XivelyAPIClient(api_key)
-        self.client_ = api.feeds.get(feed_key)
+        self._api_key = api_key
+        self._feed_key = feed_key
 
     def _run(self, data):
         """ Procedure to run when data received from trigger thread.
@@ -124,23 +125,40 @@ class XivelyEventHandler(IEventHandler):
         Args:
             data: Pass to the registered event handlers.
         """
-        at = data["at"]
+        def update(at):
+            api = xively.XivelyAPIClient(self._api_key)
+            feed = api.feeds.get(self._feed_key)
 
-        datastreams = []
-        for key, data in data["data"].items():
-            datastreams.append(
-                xively.Datastream(
-                    id="".join(key.split()),
-                    current_value=data["value"],
-                    at=at
+            datastreams = []
+            for key, val in data["data"].items():
+                datastreams.append(
+                    xively.Datastream(
+                        id="".join(key.split()),
+                        current_value=val["value"],
+                        at=at
+                    )
                 )
-            )
 
-        self.client_.datastreams = datastreams
-        self.client_.update()
+            feed.datastreams = datastreams
+            feed.update()
 
-        logger.info("{} sent data to xively at {}".format(
-            type(self).__name__, at))
+            api.client.close()
+
+        retries = 3
+        while retries > 0:
+            try:
+                update(data["at"])
+
+                logger.info("{} sent data to xively at {}".format(
+                    type(self).__name__, data["at"]))
+
+                break
+            except Exception as e:
+                logger.error("{} failed to send data to xively at {} by {}".format(
+                    type(self).__name__, data["at"], type(e).__name__))
+
+                retries -= 1
+                time.sleep(1)
 
 
 class TweetBotEventHandler(IEventHandler):

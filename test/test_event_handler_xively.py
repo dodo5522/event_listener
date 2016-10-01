@@ -49,8 +49,8 @@ class TestXivelyEventHandler(unittest.TestCase):
         mocked_api_client.return_value = api
 
         xively_handler = XivelyEventHandler(
-            api_key="dummy",
-            feed_key="dummy")
+            api_key="dummy_api_key",
+            feed_key="dummy_feed_key")
 
         data = {}
         data['source'] = 'solar'
@@ -65,7 +65,8 @@ class TestXivelyEventHandler(unittest.TestCase):
         xively_handler.stop()
         xively_handler.join()
 
-        api.feeds.get.assert_called_once_with("dummy")
+        mocked_api_client.assert_called_once_with("dummy_api_key")
+        api.feeds.get.assert_called_once_with("dummy_feed_key")
 
         calls = [
             call(id="ArrayCurrent", current_value=1.4, at=data["at"]),
