@@ -144,8 +144,7 @@ class XivelyEventHandler(IEventHandler):
 
             api.client.close()
 
-        retries = 3
-        while retries > 0:
+        for _ in range(3):
             try:
                 update(data["at"])
 
@@ -157,7 +156,6 @@ class XivelyEventHandler(IEventHandler):
                 logger.error("{} failed to send data to xively at {} by {}".format(
                     type(self).__name__, data["at"], type(e).__name__))
 
-                retries -= 1
                 time.sleep(1)
 
 
