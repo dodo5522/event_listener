@@ -74,6 +74,10 @@ class KeenIoEventHandler(IEventHandler):
     def __init__(self, project_id, write_key, q_max=5):
         IEventHandler.__init__(self, q_max=q_max)
 
+        # for retry
+        self.project_id_ = project_id
+        self.write_key_ = write_key
+
         self.client_ = KeenClient(
             project_id=project_id,
             write_key=write_key)
@@ -95,10 +99,23 @@ class KeenIoEventHandler(IEventHandler):
             upload_item["keen"] = {"timestamp": "{}Z".format(at.isoformat())}
             upload_items.append(upload_item)
 
-        self.client_.add_events({"offgrid": upload_items})
+        try:
+            self.client_.add_events({"offgrid": upload_items})
+        except Exception as e:
+            logger.error("{} failed to send data to keenio at {} by {}".format(
+                type(self).__name__, data["at"], type(e).__name__))
+            logger.error("Details: {}".format(str(e)))
 
-        logger.info("{} sent data to keenio at {}".format(
-            type(self).__name__, at))
+            del self.client_
+            self.client_ = KeenClient(
+                project_id=self.project_id_,
+                write_key=self.write_key_)
+
+            # TODO: skip retry to avoid exception in this scope.
+            # self.client_.add_events({"offgrid": upload_items})
+        else:
+            logger.info("{} sent data to keenio at {}".format(
+                type(self).__name__, at))
 
 
 class XivelyEventHandler(IEventHandler):
