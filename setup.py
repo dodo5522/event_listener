@@ -27,7 +27,7 @@ setup(
     version='1.0.1',
     description='event listener module for solar/radiation monitor.',
     long_description=readme(),
-    license="GPLv2",
+    license="Apache Software License",
     author='Takashi Ando',
     url='https://github.com/dodo5522/event_listener.git',
     install_requires=requires(),
