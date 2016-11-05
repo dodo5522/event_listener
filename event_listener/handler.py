@@ -203,6 +203,12 @@ class TweetBotEventHandler(IEventHandler):
 
         IEventHandler.__init__(self, q_max=q_max)
 
+        # for retry
+        self.consumer_key_ = consumer_key
+        self.consumer_secret_ = consumer_secret
+        self.key_ = key
+        self.secret_ = secret
+
         auth = tweepy.OAuthHandler(
             consumer_key=consumer_key,
             consumer_secret=consumer_secret)
@@ -220,7 +226,27 @@ class TweetBotEventHandler(IEventHandler):
             UNIT=data["data"][self.label_]["unit"],
             VALUE=round(number=data["data"][self.label_]["value"], ndigits=2))
 
-        self.api_.update_status(msg)
+        try:
+            self.api_.update_status(msg)
+        except Exception as e:
+            logger.error("{} failed to send data to keenio at {} by {}".format(
+                type(self).__name__, data["at"], type(e).__name__))
+            logger.error("Details: {}".format(str(e)))
+
+            auth = tweepy.OAuthHandler(
+                consumer_key=self.consumer_key_,
+                consumer_secret=self.consumer_secret_)
+            auth.set_access_token(key=self.key_, secret=self.secret_)
+
+            del self.api_
+            self.api_ = tweepy.API(auth)
+
+            # TODO: skip retry to avoid exception in this scope.
+            # self.api_.update_status(msg)
+        else:
+            logger.info("{} sent data to twitter at {}".format(
+                type(self).__name__, at))
+
 
 if __name__ == "__main__":
     import doctest
