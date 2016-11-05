@@ -24,7 +24,7 @@ def requires():
 
 setup(
     name='event_listener',
-    version='1.0.0',
+    version='1.0.1',
     description='event listener module for solar/radiation monitor.',
     long_description=readme(),
     license="GPLv2",
