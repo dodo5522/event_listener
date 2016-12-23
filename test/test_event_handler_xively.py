@@ -79,6 +79,15 @@ class TestXivelyEventHandler(unittest.TestCase):
         self.assertEqual(2, len(client.datastreams))
         client.update.assert_called_once_with()
 
+    def test_init_xively_with_invalid_key(self):
+        import requests
+
+        self.assertRaises(
+            requests.exceptions.HTTPError,
+            XivelyEventHandler,
+            api_key="dummy_api_key",
+            feed_key="dummy_feed_key")
+
     @patch("event_listener.handler.xively.XivelyAPIClient", autospec=True)
     def test_post_data_failed_with_exception(self, mocked_api_client):
         class ConnectionError(Exception):
