@@ -98,7 +98,6 @@ class TestXivelyEventHandler(unittest.TestCase):
         api = MagicMock()
         api.feeds = MagicMock()
         api.feeds.get = MagicMock(return_value=client)
-        mocked_api_client.side_effect = ConnectionError
 
         xively_handler = XivelyEventHandler(
             api_key="dummy_api_key",
@@ -121,7 +120,7 @@ class TestXivelyEventHandler(unittest.TestCase):
         xively_handler.stop()
         xively_handler.join()
 
-        self.assertEqual(mocked_api_client.call_count, 3)
+        self.assertEqual(mocked_api_client.call_count, 1)
 
         if sys.version_info[:3] >= (3, 5, 0):
             api.feeds.get.assert_not_called()
