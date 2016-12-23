@@ -9,12 +9,17 @@ This is a module to generate event trigger and handler to receive the event gene
 
 # How to install
 
-1. pip3 install -r requirements.txt
-2. pip3 install git+https://github.com/dodo5522/event_listener.git
+1. pip install -r requirements.txt
+2. pip install git+https://github.com/dodo5522/event_listener.git
+
+# How to test
+
+1. pip install -r test-requirements.txt
+2. nosetests
 
 # Requirement
 
-* Python3
+* Python2 or 3
 * keen>=0.3.20
 * xively-python>=0.1.0rc1
 
