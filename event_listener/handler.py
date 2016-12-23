@@ -17,7 +17,6 @@
 
 import subprocess
 import xively
-import time
 import tweepy
 from keen.client import KeenClient
 from event_listener import logger
@@ -128,6 +127,8 @@ class XivelyEventHandler(IEventHandler):
         q_max: internal queue size to be used from another thread.
     Returns:
         Instance of this class.
+    Raises:
+        requests.exceptions.HTTPError
     """
 
     def __init__(self, api_key, feed_key, q_max=5):
@@ -135,6 +136,8 @@ class XivelyEventHandler(IEventHandler):
 
         self._api_key = api_key
         self._feed_key = feed_key
+        self._api = xively.XivelyAPIClient(self._api_key)
+        self._feed = self._api.feeds.get(self._feed_key)
 
     def _run(self, data):
         """ Procedure to run when data received from trigger thread.
@@ -142,38 +145,33 @@ class XivelyEventHandler(IEventHandler):
         Args:
             data: Pass to the registered event handlers.
         """
-        def update(at):
-            api = xively.XivelyAPIClient(self._api_key)
-            feed = api.feeds.get(self._feed_key)
-
-            datastreams = []
-            for key, val in data["data"].items():
-                datastreams.append(
-                    xively.Datastream(
-                        id="".join(key.split()),
-                        current_value=val["value"],
-                        at=at
-                    )
+        datastreams = []
+        for key, val in data["data"].items():
+            datastreams.append(
+                xively.Datastream(
+                    id="".join(key.split()),
+                    current_value=val["value"],
+                    at=data["at"]
                 )
+            )
 
-            feed.datastreams = datastreams
-            feed.update()
+        try:
+            self._feed.datastreams = datastreams
+            self._feed.update()
 
-            api.client.close()
+        except Exception as e:
+            logger.error("{} failed to send data to xively at {} by {}".format(
+                type(self).__name__, data["at"], type(e).__name__))
 
-        for _ in range(3):
-            try:
-                update(data["at"])
+            self._api.client.close()
+            self._api = xively.XivelyAPIClient(self._api_key)
+            self._feed = self._api.feeds.get(self._feed_key)
 
-                logger.info("{} sent data to xively at {}".format(
-                    type(self).__name__, data["at"]))
-
-                break
-            except Exception as e:
-                logger.error("{} failed to send data to xively at {} by {}".format(
-                    type(self).__name__, data["at"], type(e).__name__))
-
-                time.sleep(1)
+            # TODO: skip retry to avoid exception in this scope.
+            # self.client_.add_events({"offgrid": upload_items})
+        else:
+            logger.info("{} sent data to xively at {}".format(
+                type(self).__name__, data["at"]))
 
 
 class TweetBotEventHandler(IEventHandler):
